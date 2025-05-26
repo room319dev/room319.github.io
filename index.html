@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>(room 319, a hostel)</title>
+  <!-- Favicon: green square -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23A9C97F'/></svg>">
+  <!-- Main Sans Serif -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700&display=swap" rel="stylesheet">
+  <!-- Creative Display Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: #CCCCCC;
+      font-family: 'Montserrat', Arial, sans-serif;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      padding: 32px 0 0 0;
+      background: transparent;
+      transition: background 0.3s;
+    }
+    header.scrolled {
+      background: rgba(0,0,0,0.65);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.12);
+      backdrop-filter: blur(4px);
+    }
+    nav {
+      display: flex;
+      gap: 48px;
+      padding: 12px 32px;
+      border-radius: 12px;
+      align-items: center;
+    }
+    nav a {
+      color: #CCCCCC;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    nav a:hover {
+      color: #FFFFFF;
+    }
+    /* Hamburger menu styles */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      margin-right: 12px;
+      z-index: 20;
+    }
+    .hamburger span {
+      height: 4px;
+      width: 100%;
+      background: #A9C97F;
+      margin: 4px 0;
+      border-radius: 2px;
+      transition: 0.3s;
+      display: block;
+    }
+    /* Hamburger open state */
+    .hamburger.active span:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+    section {
+      width: 100%;
+      padding: 120px 5vw 80px 5vw;
+      box-sizing: border-box;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .center-image-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100vw;
+    }
+    .main-image {
+      max-width: 80vw;
+      max-height: 80vh;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.5);
+      border-radius: 12px;
+      object-fit: contain;
+      background: #000;
+      display: block;
+    }
+    .section-title {
+      color: #A9C97F;
+      font-size: 2.3rem;
+      letter-spacing: 0.1em;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+      font-family: 'Unbounded', 'Montserrat', Arial, sans-serif;
+    }
+    .about-images, .portfolio-grid, .vlogs-grid {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+    .about-images img,
+    .portfolio-grid img {
+      width: 100%;
+      border-radius: 8px;
+      object-fit: cover;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+    .interlude-image {
+      width: 100%;
+      max-height: 90vh;
+      object-fit: cover;
+      margin: 80px 0 12px 0;
+      display: block;
+      aspect-ratio: 16 / 9; /* Ensures all interlude images share the same aspect ratio */
+    }
+    .collection-description {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 5vw 32px 5vw;
+      box-sizing: border-box;
+    }
+    .caption {
+      text-align: center;
+      font-style: italic;
+      font-size: 0.9rem;
+      color: #AAAAAA;
+    }
+    /* Vlogs Section */
+    .vlogs-grid {
+      margin-top: 16px;
+    }
+    .vlog-thumb {
+      width: 100%;
+      aspect-ratio: 16/9;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      background: #111;
+      display: block;
+      transition: transform 0.15s;
+    }
+    .vlog-thumb:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+    .vlog-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* --- MOBILE STYLES --- */
+    @media (max-width: 900px) {
+      header {
+        padding-top: 16px;
+      }
+      .main-image {
+        max-width: 98vw;
+        max-height: 60vh;
+      }
+      .section-title {
+        font-size: 1.6rem;
+      }
+      section {
+        padding: 90px 3vw 48px 3vw;
+      }
+      .about-images, .portfolio-grid, .vlogs-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .interlude-image {
+        margin: 48px 0 8px 0;
+        max-height: 50vh;
+      }
+    }
+    @media (max-width: 700px) {
+      .center-image-container {
+        height: 60vh;
+        min-height: 300px;
+      }
+      .main-image {
+        max-width: 98vw;
+        max-height: 40vh;
+      }
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0,0,0,0.96);
+        flex-direction: column;
+        gap: 0;
+        padding: 80px 0 24px 0;
+        border-radius: 0;
+        width: 100vw;
+        transform: translateY(-100%);
+        transition: transform 0.3s;
+        z-index: 15;
+        align-items: flex-start;
+      }
+      nav.open {
+        transform: translateY(0);
+      }
+      nav a {
+        display: block;
+        padding: 18px 32px;
+        font-size: 1.1rem;
+        border-bottom: 1px solid #222;
+        width: 100%;
+      }
+      .hamburger {
+        display: flex;
+        position: absolute;
+        top: 24px;
+        right: 24px;
+      }
+      header {
+        justify-content: flex-start;
+        padding-top: 0;
+      }
+      section {
+        padding: 70px 3vw 36px 3vw;
+      }
+      .section-title {
+        font-size: 1.2rem;
+        margin-bottom: 16px;
+      }
+      .caption {
+        font-size: 0.85rem;
+      }
+    }
+    @media (max-width: 400px) {
+      .main-image {
+        max-height: 30vh;
+      }
+      .section-title {
+        font-size: 1rem;
+      }
+      nav a {
+        font-size: 1rem;
+        padding: 14px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header id="main-header">
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <nav id="main-nav">
+      <a href="#">Home</a>
+      <a href="#about">About</a>
+      <a href="#vlogs">Vlogs</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+  <main>
+    <!-- Hero -->
+    <div class="center-image-container">
+      <img class="main-image" src="room319.xyz.png" alt="Waterfront scene" />
+    </div>
+
+    <!-- About Section -->
+    <section id="about">
+      <h2 class="section-title">About Us</h2>
+      <p>
+        started in 2023 as a one-off idea, "shot by johan." soon became my way of documenting my life especially when i entered my final year of high school. currently with more than 50 vlogs, "shot by johan." is my longest running project (the only one i have been able to stick to properly).
+      </p>
+      <p>
+        room 319 was my hostel room in the first year of college and happened to be one of the cheapest domains i could possibly buy. it embodies my transition from abu dhabi to kerala and how life changed. today, this site exists merely as an archive of my previous creative work and possibly a portfolio of sorts.
+      </p>
+    </section>      
+
+    <!-- Interlude Image 1 -->
+    <img class="interlude-image" src="imgs/IMG_5242.jpg.jpeg" alt="mid-project reflection" />
+    <div class="caption">shot in fort kochi, may 2025</div>
+    <div class="collection-description">
+      <p>
+        this series captures the quiet moments and unexpected beauty found in everyday life. each photo is a reflection of how routine spaces can feel new and different when seen through a creative lens.
+        <a href="collection1.html" class="collection-link" style="color:#A9C97F; text-decoration:underline; margin-left:8px;">view full collection</a>
+      </p>
+    </div>
+
+    <!-- Interlude Image 2 -->
+    <img class="interlude-image" src="imgs/IMG_7314.jpg" alt="closing shot" />
+    <div class="caption">shot in kozhikode, august 2024</div>
+    <div class="collection-description">
+      <p>
+        this gallery explores the transition from abu dhabi to calicut, documenting the people and places that shaped my journey. the images serve as a visual diary of change, growth, and new beginnings.
+        <a href="collection2.html" class="collection-link" style="color:#A9C97F; text-decoration:underline; margin-left:8px;">view full collection</a>
+      </p>
+    </div>
+
+    <!-- Interlude Image 3 -->
+    <img class="interlude-image" src="imgs/IMG_4049.jpg" alt="urban wanderings" />
+    <div class="caption">shot in abu dhabi, april 2025</div>
+    <div class="collection-description">
+      <p>
+        urban wanderings is a collection focused on the subtle rhythms of city life—moments that often go unnoticed in the rush of daily routines. through these frames, i try to find meaning in the ordinary and celebrate the character of the streets.
+        <a href="collection3.html" class="collection-link" style="color:#A9C97F; text-decoration:underline; margin-left:8px;">view full collection</a>
+      </p>
+    </div>
+
+    <section id="vlogs">
+      <h2 class="section-title">Vlogs</h2>
+      <div class="vlogs-grid" id="vlogsGrid"></div>
+    </section>
+    
+    <script>
+      fetch('vlogs.json')
+        .then(res => res.json())
+        .then(vlogs => {
+          const vlogsGrid = document.getElementById('vlogsGrid');
+          vlogs.forEach(vlog => {
+            const a = document.createElement('a');
+            a.className = "vlog-thumb";
+            a.href = `https://www.youtube.com/watch?v=${vlog.id}`;
+            a.target = "_blank";
+            a.rel = "noopener";
+            a.innerHTML = `
+              <img src="https://img.youtube.com/vi/${vlog.id}/hqdefault.jpg" alt="${vlog.title}">
+            `;
+            vlogsGrid.appendChild(a);
+          });
+        })
+        .catch(error => {
+          console.error('Failed to load vlogs:', error);
+        });
+    </script>      
+
+    <!-- Contact Section -->
+    <section id="contact">
+      <h2 class="section-title">Get In Touch</h2>
+      <p>hit me up at: <a href="mailto:johan@room319.xyz" style="color:#A9C97F;">johan@room319.xyz</a></p>
+    </section>
+  </main>
+  <script>
+    // Header background on scroll
+    window.addEventListener('scroll', function() {
+      const header = document.getElementById('main-header');
+      if (window.scrollY > 30) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Hamburger menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('main-nav');
+    hamburger.addEventListener('click', function() {
+      hamburger.classList.toggle('active');
+      nav.classList.toggle('open');
+    });
+
+    // Close menu on nav link click (mobile)
+    Array.from(nav.querySelectorAll('a')).forEach(link => {
+      link.addEventListener('click', () => {
+        if(window.innerWidth <= 700){
+          hamburger.classList.remove('active');
+          nav.classList.remove('open');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
